@@ -1,0 +1,32 @@
+html{
+
+    overflow-x: hidden; 
+}
+
+.accueil_image{
+
+background-image: url("./images/ordinateur_1.jpg");
+background-size: cover;
+background-position: center;
+height: 400px;
+
+
+}
+
+.detail_image{
+
+background-image: url("./images/ordinateur_2.jpg");
+background-size: cover;
+background-position: center;
+height: 400px;
+
+}
+
+.couleurtest{
+
+
+    background-color: #343a40;
+}
+
+
+
