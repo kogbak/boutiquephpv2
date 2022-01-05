@@ -27,19 +27,20 @@ session_start();
   <?php
 
   $id_article = $_POST["articleId"];
-  $article = recuperer_article($id_article);
+  $article = recuperer_article_db($id_article);
 
   echo '
 
 
 
 <div class="card m-5">
-<img src="./images/' . $article['picture'] . '" class="card-img-top w-25 mx-auto" alt="...">
+<img src="./images/' . $article['image'] . '" class="card-img-top w-25 mx-auto" alt="...">
   <div class="card-body">
   
-<h5 class="card-title m-5 text-center">' . $article['name'] . '</h5>
+<h5 class="card-title m-5 text-center">' . $article['nom'] . '</h5>
 
-    <p class="card-text m-5 w-75 text-center mx-auto">' . $article['detailedDescription'] . '</p>
+    <p class="card-text m-5 w-75 text-center mx-auto">' . $article['description_detaillee'] . '</p>
+    <p class="card-text m-5 w-75 text-center mx-auto">' . $article['prix'] . '€' . '</p>
   </div>
 </div>';
 

@@ -1,40 +1,43 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
-<?php
+<?php // ** connexion à la base de données OK**
+
+function getConnection()
+{
+    try {
+        $db = new PDO(
+            'mysql:host=localhost;dbname=boutique_en_ligne;charset=utf8',
+            'ben2679',
+            'Bobo7994260894,',
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC)
+        );
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+    return $db;
+}
+
+
+
 
 
 function liste_article()
 {
 
-    return [
-        [
-            'name' => 'Zenbook S UX393EA-HK001T',
-            'id' => 1,
-            'price' => 1454,
-            'description' => 'Un ultraportable élégant',
-            'detailedDescription' => 'Avec son Zenbook S UX393EA-HK001T, Asus repousse encore un peu plus loin les limites des PC Portables. L\'écran de ce nouveau Zenbook est en effet tout simplement bluffant et saisissant avec sa résolution 3K et son format non conventionnel de 3:2. Mais il ne s\'arrête pas là pour vous surprendre : charnière Ergolift et pavé tactile Numpad sont aussi présents pour faire de cet UX393 un véritable condensé de technicité et d\'innovation. Côté configuration, performance et polyvalence sont au rendez-vous pour ce PC portable avec un processeur i7 Tiger Lake, 16 Go de RAM et stockage SSD grosse capacité.',
-            'picture' => 'asus.png'
-        ],
-
-        [
-            'name' => 'Huawei MateBook X Pro 2021',
-            'id' => 2,
-            'price' => 1899,
-            'description' => 'Un ultraportable premium',
-            'detailedDescription' => 'L\'ordinateur portable HUAWEI MateBook X Pro 2021 est un laptop de 13.9 pouces avec un écran Fullview 3K et un processeur Intel de 11e génération. Avec son fini métallique, il pèse environ 1.3 kg et mesure 14.6 mm d\'épaisseur.',
-            'picture' => 'huawei.jpeg'
-        ],
-
-        [
-            'name' => 'Acer Swift 5 SF514-55T-71NL',
-            'id' => 3,
-            'price' => 2299,
-            'description' => 'Un ultraportable, endurant',
-            'detailedDescription' => 'La situation actuelle exige un nouveau type d\'ordinateur portable avec des solutions antimicrobiennes complètes (le châssis et l\'écran tactile en verre antimicrobien. Option en fonction du modèle. Corning® Gorilla® 4). Avec un poids d\'environ 1 kg1, une épaisseur de 14,95 mm1 et un rapport écran/châssis incroyable de 90 %, il est également doté des tout derniers processeurs Intel® Core™ de 11e génération 1, d\'une puissante carte graphique NVIDIA® GeForce® MX3501 et affiche jusqu\'à 17 heures d\'autonomie',
-            'picture' => 'acer.png'
-        ]
-
-    ];
+    $db = getConnection();
+    $query = $db->query("SELECT `id`,`image`,`nom`,`description`, `prix` FROM `articles`");
+    return $query->fetchAll();
+    
 }
+
+
+function recuperer_article_db($id){
+
+    $db = getConnection();
+    $result = $db->prepare("SELECT `id`,`image`,`nom`,`description_detaillee`, `prix` FROM `articles` WHERE `id`=?");
+    $result->execute([$id]);
+    return $result->fetch();
+}
+
+
 
 function afficher_article()
 {
@@ -43,10 +46,10 @@ function afficher_article()
 
     foreach ($liste_article as $article) {
 
-        echo '<div class="card mx-auto col-md-4 mb-5" style="width: 18rem;">
-  <img src="./images/' . $article['picture'] . '" class="card-img-top" alt="...">
+        echo '<div class="card mx-auto col-md-4 mb-5" style="width: 22rem;">
+  <img src="./images/' . $article['image'] . '" class="card-img-top" alt="...">
   <div class="card-body">
-    <h5 class="card-title">' . $article['name'] . '</h5>
+    <h5 class="card-title">' . $article['nom'] . '</h5>
     <p class="card-text">' . $article['description'] . '</p>
     
 
