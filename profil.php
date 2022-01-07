@@ -14,7 +14,7 @@ session_start();
 
 <?php
 
-afficher_gammes();
+
 
 ?>
 
