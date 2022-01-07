@@ -478,3 +478,11 @@ function afficher_le_total_avec_frais_de_port()
     echo 'frais de port = ' . number_format($frais_de_port, 2, " , ", " ") . '€ <br>';
     echo 'Total = ' . number_format(prix_total_panier() + $frais_de_port, 2, " , ", " ") . '€';
 }
+
+
+// FONCTION POUR MODIFIER MES INFORMATION 
+
+function modifier_informations(){
+
+    
+}
