@@ -45,7 +45,7 @@ if(isset($_POST["informations"])){
   </div>
 
   
-  <button type="submit" class="btn btn-primary mb-5">Valider</button>
+  <button type="submit" class="btn btn-primary mb-5">Modifier</button>
   <input type="hidden" name="bouton_valider" value="true">
 </form>
 

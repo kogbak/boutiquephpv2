@@ -7,8 +7,8 @@ function getConnection()
     try {
         $db = new PDO(
             'mysql:host=localhost;dbname=boutique_en_ligne;charset=utf8',
-            'ben2679',
-            'Bobo7994260894,',
+            'root',
+            '',
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC)
         );
     } catch (Exception $e) {
@@ -198,7 +198,6 @@ function verifier_longueur_champs()
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
     $email = $_POST["email"];
-    $mdp = $_POST["mdp"];
     $adresse = $_POST["adresse"];
     $cp = $_POST["cp"];
     $ville = $_POST["ville"];
