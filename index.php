@@ -3,6 +3,29 @@
   include "./head.php";
   include "./function.php";
   session_start();
+
+  if (!isset($_SESSION["panier"])){
+
+    $_SESSION["panier"] = [];
+  }
+
+  if (isset($_POST["bouton_inscription"])){
+
+  
+  inscription();
+
+  }
+
+
+ if (isset($_POST["bouton_connexion"])){
+    
+   
+    connexion();
+    
+  }
+
+
+
   ?>
 </head>
 <header>
@@ -43,7 +66,7 @@
 
         <?php
 
-        afficher_article();
+        afficher_articles(liste_article());
 
 
         if (isset($_POST['commande-valide'])) {

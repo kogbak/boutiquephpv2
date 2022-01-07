@@ -31,8 +31,18 @@ include "./head.php"
           <a class="nav-link" aria-current="page" href="index.php">Acceuil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="panier.php">Panier()</a>
+          <a class="nav-link" href="gammes.php">Gammes</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="connexion.php">Connexion</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="inscription.php">Inscription</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="panier.php">Panier</a>
+        </li>
+        
       </ul>
     </div>
   </div>

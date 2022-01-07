@@ -6,7 +6,7 @@
 
             <div class="col-12">
 
-                <p class="text-center">© 2021 - 2022 Ordi Ultra</p>
+                <p class="text-center mt-5">© 2021 - 2022 Ordi Ultra</p>
 
             </div>
         </div>
