@@ -42,6 +42,11 @@ include "./head.php"
         <li class="nav-item">
           <a class="nav-link" href="panier.php">Panier</a>
         </li>
+
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="profil.php">Profil</a>
+        </li>
         
       </ul>
     </div>

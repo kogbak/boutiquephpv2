@@ -217,7 +217,7 @@ function verifier_longueur_champs()
         $champ_trop_long = TRUE;
     }
 
-    if (strlen($email) > 25 || strlen($email < 3)) {
+    if (strlen($email) > 40 || strlen($email < 3)) {
         echo '<div class="erreur">Votre Adresse mail est trop grand</div>';
         $champ_trop_long = TRUE;
     }
@@ -279,7 +279,7 @@ function connexion()
         return;
     } else {
 
-        if (!password_verify($_POST["mot_de_passe"], $info_client["mot_de_passe"])) {
+        if (!password_verify($_POST["mdp"], $info_client["mot_de_passe"])) {
 
 
             echo "Erreur dans le mot de passe";
@@ -292,7 +292,7 @@ function connexion()
 
             $_SESSION["client"] = $info_client;
             $_SESSION["adresses"] = $adresse;
-            echo "Bonjour " . $_POST["prenom"] . " ,vous êtes connecté";
+            echo "Bonjour " . $info_client["prenom"] . " ,vous êtes connecté";
         }
     }
 }

@@ -22,6 +22,15 @@ height: 400px;
 
 }
 
+.profil_image{
+
+background-image: url("./images/ordinateur_3.jpg");
+background-size: cover;
+background-position: center;
+height: 400px;
+    
+}
+
 .couleurtest{
 
 
