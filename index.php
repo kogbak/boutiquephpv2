@@ -25,6 +25,12 @@
   }
 
 
+  if (isset($_POST["deconnexion"])){
+    
+    deconnexion();
+    
+  }
+
 
   ?>
 </head>

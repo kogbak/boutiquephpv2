@@ -42,6 +42,22 @@ contenue_panier("validation.php");
         </div>
     </div>
 </div>
+<!-- AFFICHER ICI LA FUNCTION MODIFICATION INFORMATION AVEC LE BON POSTE (JE PENSE) -->
+<?php
+
+
+
+
+
+
+if(isset($_POST["modifier_informations"])){
+
+    modifier_informations();
+}
+
+?>
+
+<!-- AFFICHER ICI LA FUNCTION MODIFICATION ADRESSE AVEC LE BON POSTE (JE PENSE) -->
 
 
 <!-- Button trigger modal -->

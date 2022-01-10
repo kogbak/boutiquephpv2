@@ -1,5 +1,6 @@
 <?php
-include "./head.php"
+include "./head.php";
+
 ?>
 
 <!--TITRE-->
@@ -34,19 +35,45 @@ include "./head.php"
           <a class="nav-link" href="gammes.php">Gammes</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="panier.php">Panier</a>
+        </li>
+
+        </li>
+        <?php 
+        
+        if(!isset($_SESSION["client"]["id"])){
+        
+        echo'
+        <li class="nav-item">
           <a class="nav-link" href="connexion.php">Connexion</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="inscription.php">Inscription</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="panier.php">Panier</a>
-        </li>
-
-        </li>
+        
+        ';
+      }else{
+        echo'
         <li class="nav-item">
           <a class="nav-link" href="profil.php">Profil</a>
         </li>
+        <li class="nav-item">
+
+          <form method="POST" action="index.php" class="nav-link">
+          <input type="hidden" name="deconnexion" >
+          <input type="submit" value="Déconnexion" style="color: red; border:none; background:none; border-bottom: solid 1px;">
+          </form>
+          
+        </li>
+        
+        ';
+}
+      
+      
+      
+      ?>
+        
+        
         
       </ul>
     </div>

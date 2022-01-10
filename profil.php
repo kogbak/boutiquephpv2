@@ -1,8 +1,9 @@
 <?php
+session_start();
 include "./head.php";
 include "./header.php";
 include "./function.php";
-session_start();
+
 ?>
 
 <div class="container-fluid">

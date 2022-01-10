@@ -1,9 +1,15 @@
 <?php
+session_start();
 include "./head.php";
 include "./header.php";
 include "./function.php";
-session_start();
+
+
+if(isset($_POST["modif_infos"])){
+modifier_informations();
+}
 ?>
+
 
 <div class="container-fluid">
 
@@ -23,31 +29,32 @@ session_start();
         <?php
 
 
-if(isset($_POST["informations"])){
 
-}?>
+?>
 
 <h3 class="text-center">Modifier mes informations</h3>
 
 
-<form class="w-50 mx-auto" action="index.php" method="post">
+<form class="w-50 mx-auto" action="modifier_mes_informations.php" method="post">
   <div class="mb-3 mt-5">
     <label for="nom" class="form-label">Nom: </label>
-    <input required type="text" class="form-control" name="nom" value=" <?php $_SESSION["nom"] ?> "> 
+    <input required type="text" class="form-control" name="nom" value="<?php echo $_SESSION["client"]["nom"]?>"> 
   </div>
   <div class="mb-3">
     <label for="prenom" class="form-label">Prénom: </label>
-    <input required type="text" class="form-control" name="prenom">
+    <input required type="text" class="form-control" name="prenom" value="<?php echo $_SESSION["client"]["prenom"]?>">
   </div>
   <div class="mb-3 ">
     <label for="Email" class="form-label">Adresse email: </label>
-    <input required type="email" class="form-control" name="email" aria-describedby="emailHelp">
+    <input required type="email" class="form-control" name="email" aria-describedby="emailHelp"value="<?php echo $_SESSION["client"]["email"]?>">
   </div>
 
   
+  <input type="hidden" name="modif_infos" value="true">
   <button type="submit" class="btn btn-primary mb-5">Modifier</button>
-  <input type="hidden" name="bouton_valider" value="true">
+  
 </form>
+
 
 
     </div>

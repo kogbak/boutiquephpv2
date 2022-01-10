@@ -86,7 +86,9 @@ function afficher_articles($liste_articles)
 
     foreach ($liste_articles as $article) {
 
-        echo '<div class="card mx-auto col-md-4 mb-5" style="width: 22rem;">
+        echo 
+        
+        '<div class="card mx-auto col-md-4 mb-5" style="width: 22rem;">
   <img src="./images/' . $article['image'] . '" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title">' . $article['nom'] . '</h5>
@@ -133,7 +135,7 @@ function inscription()
             } else {
 
 
-                $mot_de_passe = password_hash($_POST["mdp"], PASSWORD_DEFAULT);
+                $mot_de_passe = password_hash($_POST["nouveau_mdp"], PASSWORD_DEFAULT);
 
                 //5) si ok : hasher le mot de passe (via password_hash) et inscrire l'utilisateur en base via une requête (dans la table clients)
 
@@ -246,7 +248,7 @@ function verifier_mot_de_passe()
 {
 
     $regex = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@$!%*?/&])(?=\S+$).{8,15}$^";
-    $mot_de_passe = $_POST["mdp"];
+    $mot_de_passe = $_POST["nouveau_mdp"];
 
     return preg_match($regex, $mot_de_passe);
 }
@@ -278,7 +280,7 @@ function connexion()
         return;
     } else {
 
-        if (!password_verify($_POST["mdp"], $info_client["mot_de_passe"])) {
+        if (!password_verify($_POST["nouveau_mdp"], $info_client["mot_de_passe"])) {
 
 
             echo "Erreur dans le mot de passe";
@@ -286,12 +288,11 @@ function connexion()
 
 
             $query = $db->prepare("SELECT * FROM `adresses` WHERE `id_client`=?");
-            $query->execute([$info_client["id"]]); // J'AI PAS TROP COMPRIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $adresse = $query->fetchAll();
-
+            $query->execute([$info_client["id"]]);
+            $adresse = $query->fetch();
             $_SESSION["client"] = $info_client;
-            $_SESSION["adresses"] = $adresse;
-            echo "Bonjour " . $info_client["prenom"] . " ,vous êtes connecté";
+            $_SESSION["adresse"] = $adresse;
+            echo '<script>alert("Vous êtes connecté !")</script>';
         }
     }
 }
@@ -346,16 +347,16 @@ function contenue_panier($page_name)
 
 
 
-<div class="container ">
+<div class="container">
 
-<div class="row bg-secondary mt-5 mb-5 text-white">
+<div class="row mt-5 mb-5 text-black mx-auto my-auto shadow rounded-2 p-4">
 
-<div class="col-2  mx-auto text-center">
-<img src="./images/' . $article['picture'] . '" class="w-25" alt="...">
+<div class="col-2 mx-auto text-center">
+<img src="./images/' . $article['image'] . '" class="w-75" alt="...">
 </div>
 
 <div class="col-2 mx-auto text-center ">
-<h5 class="">' . $article['name'] . '</h5>
+<h5 class="">' . $article['nom'] . '</h5>
 </div>
 
 <div class="col-2 mx-auto text-center ">
@@ -364,7 +365,7 @@ function contenue_panier($page_name)
 </div>
 <div class="col-2 mx-auto text-center ">
 
-<h5 class="">' . $article['price'] . '</h5>
+<h5 class="">' . $article['prix'] . '</h5>
 </div>
 
 
@@ -376,14 +377,14 @@ function contenue_panier($page_name)
 
     <input type="hidden" name="articleId2" value=' . $article['id'] . '>
 
-    <button type="submit" class="btn btn-primary text-center mx-auto mt-2">Modifier quantite</button>
+    <button type="submit" class="btn btn-primary text-center mx-auto mt-3">Modifier quantité</button>
     </form> 
   
 <form action="' . $page_name . '" method="post">
 
 <input type="hidden" name="supprimer_article_id" value=' . $article['id'] . '>
 
-<button type="submit">supprimer</button>
+<button type="submit" class="mt-3 btn btn-warning">supprimer</button>
 </form> 
 
 </div>
@@ -442,7 +443,7 @@ function prix_total_panier()
 
     for ($i = 0; $i < count($_SESSION["panier"]); $i++) {
 
-        $prix += $_SESSION["panier"][$i]["quantite"] * $_SESSION["panier"][$i]["price"];
+        $prix += $_SESSION["panier"][$i]["quantite"] * $_SESSION["panier"][$i]["prix"];
     }
 
     return $prix;
@@ -481,7 +482,111 @@ function afficher_le_total_avec_frais_de_port()
 
 // FONCTION POUR MODIFIER MES INFORMATION 
 
-function modifier_informations(){
+function modifier_informations()
+{
 
-    
+
+    if (!verifier_champs_libre()) {
+
+
+
+        $db = getConnection();
+        $result = $db->prepare('UPDATE clients SET prenom = :prenom, nom = :nom, email = :email WHERE id = :id');
+        $result->execute(array(
+            'prenom' =>  $_POST["prenom"],
+            'nom' => $_POST["nom"],
+            'email' => $_POST["email"],
+            'id' => $_SESSION["client"]["id"]
+        ));
+
+
+        $_SESSION["client"]["prenom"] = $_POST["prenom"];
+        $_SESSION["client"]["nom"] = $_POST["nom"];
+        $_SESSION["client"]["email"] = $_POST["email"];
+
+        echo "<script> alert(\"Vos modification on étaient validé!\")</script>";
+    }
 }
+
+// FONCTION POUR MODIFIER ADRESSSSSSSSSSSSE
+
+function modifier_adresse()
+{
+
+    if (!verifier_champs_libre()) {
+
+
+
+        $db = getConnection();
+        $result = $db->prepare('UPDATE adresses SET adresse = :adresse, code_postal = :cp, ville = :ville WHERE id_client = :id');
+        $result->execute(array(
+            'adresse' =>  $_POST["adresse"],
+            'cp' => $_POST["cp"],
+            'ville' => $_POST["ville"],
+            'id' => $_SESSION["adresse"]["id_client"]
+        ));
+
+
+        $_SESSION["adresse"]["adresse"] = $_POST["adresse"];
+        $_SESSION["adresse"]["code_postal"] = $_POST["cp"];
+        $_SESSION["adresse"]["ville"] = $_POST["ville"];
+
+        echo "<script> alert(\"L'adresse à était modifier avec succes !\")</script>";
+    }
+}
+
+
+// DECONNEXION!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+function deconnexion()
+{
+
+    $_SESSION = [];
+
+    echo "<script> alert(\"Vous avez bien était déconnecté !\")</script>";
+}
+
+
+// CREATION NOUVEEEEEEEEEAAAAAU MOT DE PASSSSSSSSSSSSSE
+
+function modifier_mot_de_passe()
+{
+
+    if (!verifier_champs_libre()) {
+
+        $mot_de_passe = $_SESSION["client"]["mot_de_passe"];
+
+        if (!password_verify($_POST["mdp_actuel"], $mot_de_passe)) {
+
+            echo 'Le mot de passe actuel que vous avez saisie est incorrect, veuillez réessayer';
+        } else {
+
+            $nouveau_mot_de_passe = strip_tags($_POST["nouveau_mdp"]);
+
+            if (!verifier_mot_de_passe($nouveau_mot_de_passe)) {
+
+                echo 'Erreur : Le mot de passe ne correspond pas à la securité demandé, veuillez réessayer';
+            } else {
+
+                $nouveau_mot_de_passe = password_hash($nouveau_mot_de_passe, PASSWORD_DEFAULT);
+
+                
+
+                $db = getConnection();
+                $result = $db->prepare('UPDATE clients SET mot_de_passe = :mdp WHERE id = :id');
+                $result->execute(array(
+                    'mdp' =>  $nouveau_mot_de_passe,
+                    'id' => $_SESSION["client"]["id"],
+                    
+                ));
+
+                
+                echo "<script> alert('mot de passe modifié avec succés !')</script>";
+
+            }
+        }
+    }
+}
+
+

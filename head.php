@@ -12,6 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css">
 
     <!--PAGE CSS-->
-    <link rel="stylesheet" href="./style.css">
+    <link href="style.css" rel="stylesheet">
 </head>
 </html>
