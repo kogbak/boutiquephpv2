@@ -34,7 +34,7 @@ if (isset($_POST['vider_panier'])){
 echo
 '<h3 class="text-center mt-5 mb-5">Recapitulatif de votre commande</h3>';
 
-contenue_panier("panier.php");
+afficher_panier("panier.php");
 
 
 

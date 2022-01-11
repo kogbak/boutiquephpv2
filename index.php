@@ -76,6 +76,7 @@
 
 
         if (isset($_POST['commande-valide'])) {
+          sauvegarder_la_commande();
           vider_totalement_le_panier();
         }
 

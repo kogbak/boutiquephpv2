@@ -86,8 +86,8 @@ function afficher_articles($liste_articles)
 
     foreach ($liste_articles as $article) {
 
-        echo 
-        
+        echo
+
         '<div class="card mx-auto col-md-4 mb-5" style="width: 22rem;">
   <img src="./images/' . $article['image'] . '" class="card-img-top" alt="...">
   <div class="card-body">
@@ -128,14 +128,14 @@ function inscription()
             return;
         } else {
 
-            if (!verifier_mot_de_passe()) { // 4) si ok : vérifier si le passeword est sécurisé (via autre fonction)
+            if (!verifier_mot_de_passe($_POST["mdp"])) { // 4) si ok : vérifier si le passeword est sécurisé (via autre fonction)
 
                 echo "Le format de votre mot de passe est incorrect";
                 return;
             } else {
 
 
-                $mot_de_passe = password_hash($_POST["nouveau_mdp"], PASSWORD_DEFAULT);
+                $mot_de_passe = password_hash($_POST["mdp"], PASSWORD_DEFAULT);
 
                 //5) si ok : hasher le mot de passe (via password_hash) et inscrire l'utilisateur en base via une requête (dans la table clients)
 
@@ -244,12 +244,10 @@ function verifier_longueur_champs()
 }
 
 
-function verifier_mot_de_passe()
+function verifier_mot_de_passe($mot_de_passe)
 {
 
     $regex = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@$!%*?/&])(?=\S+$).{8,15}$^";
-    $mot_de_passe = $_POST["nouveau_mdp"];
-
     return preg_match($regex, $mot_de_passe);
 }
 
@@ -280,7 +278,7 @@ function connexion()
         return;
     } else {
 
-        if (!password_verify($_POST["nouveau_mdp"], $info_client["mot_de_passe"])) {
+        if (!password_verify($_POST["mdp"], $info_client["mot_de_passe"])) {
 
 
             echo "Erreur dans le mot de passe";
@@ -338,7 +336,7 @@ function ajouter_panier($article)
 
 
 
-function contenue_panier($page_name)
+function afficher_panier($page_name)
 {
 
     foreach ($_SESSION["panier"] as $article) {
@@ -476,7 +474,13 @@ function afficher_le_total_avec_frais_de_port()
 {
     $frais_de_port =  total_frais_de_port();
     echo 'frais de port = ' . number_format($frais_de_port, 2, " , ", " ") . '€ <br>';
-    echo 'Total = ' . number_format(prix_total_panier() + $frais_de_port, 2, " , ", " ") . '€';
+    echo 'Total = ' . number_format(total_general(), 2, " , ", " ") . '€';
+}
+
+function total_general()
+{
+
+    return prix_total_panier() + total_frais_de_port();
 }
 
 
@@ -571,22 +575,122 @@ function modifier_mot_de_passe()
 
                 $nouveau_mot_de_passe = password_hash($nouveau_mot_de_passe, PASSWORD_DEFAULT);
 
-                
+
 
                 $db = getConnection();
                 $result = $db->prepare('UPDATE clients SET mot_de_passe = :mdp WHERE id = :id');
                 $result->execute(array(
                     'mdp' =>  $nouveau_mot_de_passe,
                     'id' => $_SESSION["client"]["id"],
-                    
+
                 ));
 
-                
-                echo "<script> alert('mot de passe modifié avec succés !')</script>";
+                $_SESSION["client"]["mot_de_passe"] = $nouveau_mot_de_passe;
 
+
+                echo "<script> alert('mot de passe modifié avec succés !')</script>";
             }
         }
     }
 }
 
 
+// Fonction afficher information avec modification ou on le souhaite
+
+
+function afficher_modif_infos($nom_de_la_page)
+{
+
+    echo '
+    <div class="container mx-auto">
+    <div class="row">
+  
+      
+  
+      <form class="w-50 mx-auto" action="' . $nom_de_la_page . '" method="post">
+        <div class="mb-3 mt-5">
+          <label for="nom" class="form-label">Nom: </label>
+          <input required type="text" class="form-control" name="nom" value="' . $_SESSION["client"]["nom"] . ' ">
+        </div>
+        <div class="mb-3">
+          <label for="prenom" class="form-label">Prénom: </label>
+          <input required type="text" class="form-control" name="prenom" value="' . $_SESSION["client"]["prenom"] . '">
+        </div>
+        <div class="mb-3 ">
+          <label for="Email" class="form-label">Adresse email: </label>
+          <input required type="email" class="form-control" name="email" aria-describedby="emailHelp" value="' . $_SESSION["client"]["email"] . '">
+        </div>
+  
+        <input type="hidden" name="modif_infos" value="true">
+        <button type="submit" class="btn btn-primary mb-5">Modifier</button>
+      </form>
+    </div>
+  </div>';
+
+    // Fonction afficher adresse avec modification ou on le souhaite
+
+
+    function afficher_modif_adresse($nom_de_la_page)
+    {
+
+        echo '
+    <div class="container mx-auto">
+    <div class="row">
+     
+  
+  
+      <form class="w-50 mx-auto" action="' . $nom_de_la_page . '" method="post">
+        <div class="mb-3 mt-5">
+          <label for="adresse" class="form-label">Adresse : </label>
+          <input required type="text" class="form-control" name="adresse" value="' . $_SESSION["adresse"]["adresse"] . '">
+        </div>
+        <div class="mb-3">
+          <label for="cp" class="form-label">Code postal : </label>
+          <input required type="text" class="form-control" name="cp" value="' . $_SESSION["adresse"]["code_postal"] . '">
+        </div>
+        <div class="mb-3 ">
+          <label for="ville" class="form-label">Ville : </label>
+          <input required type="text" class="form-control" name="ville" value="' . $_SESSION["adresse"]["ville"] . '">
+        </div>
+  
+  
+        <input type="hidden" name="modif_adresse" value="true">
+        <button type="submit" class="btn btn-primary mb-5">Modifier</button>
+  
+      </form>
+  
+    </div>
+  </div>';
+    }
+}
+
+function sauvegarder_la_commande()
+{
+
+    $db = getConnection();
+    $commande = $db->prepare("INSERT INTO commandes (id_client, numero, date_commande, prix) VALUES( :id_client, :numero, :date_commande, :prix)");
+    $commande->execute([
+        "id_client" => $_SESSION["client"]["id_client"],
+        "numero" => rand(1000000, 9999999),
+        "date_de_commande" => date("Y,m,d h:i:s"),
+        "prix" => total_general()
+    ]);
+
+
+    $db = getConnection();
+    $query = $db->prepare("SELECT * FROM commandes WHERE id_client = :id");
+    return $query->execute($_SESSION["client"]["id_client"]);
+
+
+    foreach ($_SESSION["panier"] as $articles) {
+
+
+
+        $db = getConnection();
+        $articles = $db->prepare("INSERT INTO commande_articles (id_article, quantite) VALUES( :id_article, :quantite)");
+        $articles->execute([
+            "id_article" => $_SESSION["id"],
+            "quantite" => $_SESSION["quantite"],
+        ]);
+    }
+}
