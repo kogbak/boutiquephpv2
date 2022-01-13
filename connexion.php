@@ -8,8 +8,6 @@ session_start();
 <div class="container"> 
 
 <div class="row">
-
-
 <form class="w-50 mx-auto" action="index.php" method="post">
 
   <div class="mb-3 mt-5 ">
@@ -25,20 +23,8 @@ session_start();
   <button type="submit" class="btn btn-primary mb-5">Connexion</button>
   <input type="hidden" name="bouton_connexion" value="true">
 </form>
-
-<?php
-
-
-
-?>
-
-
-
 </div>
 </div>
-
-
-
 
 <?php
 include "./footer.php";

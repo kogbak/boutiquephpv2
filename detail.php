@@ -4,9 +4,7 @@ include "./function.php";
 session_start();
 ?>
 <html>
-
 <body>
-
 
   <div class="container-fluid">
 
@@ -30,9 +28,6 @@ session_start();
   $article = recuperer_article_db($id_article);
 
   echo '
-
-
-
 <div class="card m-5">
 <img src="./images/' . $article['image'] . '" class="card-img-top w-25 mx-auto" alt="...">
   <div class="card-body">
@@ -44,30 +39,14 @@ session_start();
   </div>
 </div>';
 
-  ?>
-
-  <div class="container">
-    <div class="row">
-
-
-
-    </div>
-
-  </div>
-
+?>
 </body>
-
 </html>
-
-
-
-
-
-
-
 
 
 
 <?php
 include "./footer.php";
 ?>
+
+

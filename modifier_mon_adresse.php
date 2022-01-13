@@ -1,9 +1,10 @@
 <?php
+session_start();
 include "./head.php";
 include "./header.php";
 include "./function.php";
 
-session_start();
+
 
 if (isset($_POST["modif_adresse"])) {
   modifier_adresse();
@@ -15,14 +16,9 @@ if (isset($_POST["modif_adresse"])) {
 
   <div class="row">
     <div class="col-12 mb-5">
-      <div class="detail_image">
-
-
-      </div>
-
+      <div class="detail_image"></div>
     </div>
   </div>
-
 </div>
 
 <div class="container mx-auto">

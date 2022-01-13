@@ -9,15 +9,11 @@ include "./header.php";
 if (isset($_POST['articleId'])){
 $id_article = $_POST["articleId"];
 $article = recuperer_article($id_article);
-
 ajouter_panier($article);
-
 }
 
 if (isset($_POST['quantite'])){
 modifier_quantite($_POST['quantite'], $_POST["articleId2"]);
-
-
 }
 
 
@@ -33,19 +29,11 @@ if (isset($_POST['vider_panier'])){
 
 echo
 '<h3 class="text-center mt-5 mb-5">Recapitulatif de votre commande</h3>';
-
-afficher_panier("panier.php");
-
-
-
-
-
-?>
+afficher_panier("panier.php");?>
 
 
 
 <div class="container">
-
 <div class="row justify-content-center mb-5">
 
 <?php
@@ -57,19 +45,18 @@ afficher_le_total();
 </div>
 </div>
 
-
-
-
 <form class="text-center mb-2" action="panier.php" method="post">
-
 <button class="btn btn-danger" name="vider_panier" type="submit">Vider panier</button>
-
 </form> 
 
+<?php
 
+if(count($_SESSION["panier"]) >= 1){
+
+echo'
 <div class="text-center">
-<a href="validation.php"><button class="btn btn-primary mb-5">ajouter-condition-Validation</button></a>
-</div>
+<a href="validation.php"><button class="btn btn-primary mb-5">Validation</button></a>
+</div>';}?>
 
 
 
@@ -77,8 +64,6 @@ afficher_le_total();
 
 
 <?php
-
-
 include "./footer.php";
 
 ?>

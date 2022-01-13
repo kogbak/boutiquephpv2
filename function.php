@@ -17,9 +17,7 @@ function getConnection()
     return $db;
 }
 
-
-
-
+// Recuperer article 
 
 function liste_article()
 {
@@ -32,18 +30,16 @@ function liste_article()
 
 function recuperer_article_db($id)
 {
-
     $db = getConnection();
     $result = $db->prepare("SELECT `id`,`image`,`nom`,`description_detaillee`, `prix` FROM `articles` WHERE `id`=?");
     $result->execute([$id]);
     return $result->fetch();
 }
 
+// Recuperer les gammes
 
 function recuperer_gammes()
 {
-
-
     $db = getConnection();
     $query = $db->query("SELECT * FROM `gammes`");
     return $query->fetchAll();
@@ -57,17 +53,16 @@ function article_gammes($id_gamme)
     return $result->fetchAll();
 }
 
+// Afficher gammes
 
 function afficher_gammes()
 {
-
     echo '<div class="text-center m-5"><h1>Nos Gammes :</h1></div>';
     $gammes = recuperer_gammes();
 
 
 
     foreach ($gammes as $gamme) {
-
 
         echo '<div class="bg-primary text-white mb-5 mt-2"><h3 class="text-center">' . $gamme["nom"] . '</h3></div>';
 
@@ -77,7 +72,7 @@ function afficher_gammes()
     }
 }
 
-
+// Afficher Article sur page d'acceuil
 
 function afficher_articles($liste_articles)
 {
@@ -170,6 +165,7 @@ function inscription()
     }
 }
 
+// Verifier si l'internaute laisse des champs vide et lui mettre une erreur si oui
 
 function verifier_champs_libre()
 {
@@ -243,6 +239,7 @@ function verifier_longueur_champs()
     return $champ_trop_long;
 }
 
+// Verifier si le mot de passe correspond bien a ce quon lui demande
 
 function verifier_mot_de_passe($mot_de_passe)
 {
@@ -251,14 +248,7 @@ function verifier_mot_de_passe($mot_de_passe)
     return preg_match($regex, $mot_de_passe);
 }
 
-
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
 // FONCTION CONNEXION !
-
-
-
 
 function connexion()
 {
@@ -295,7 +285,7 @@ function connexion()
     }
 }
 
-
+// Chercher article avec le même id si oui elle le renvoie
 
 function recuperer_article($id_rechercher)
 {
@@ -313,7 +303,7 @@ function recuperer_article($id_rechercher)
 
 
 
-// AJOUT d'article dans le panier
+// AJOUT d'article dans le panier et verifier si le même article et pas deja present dans le panier
 
 
 function ajouter_panier($article)
@@ -332,8 +322,7 @@ function ajouter_panier($article)
 
 
 
-// affichage du style panier 
-
+// Affichage du style panier 
 
 
 function afficher_panier($page_name)
@@ -386,22 +375,15 @@ function afficher_panier($page_name)
 </form> 
 
 </div>
-
 </div>
-</div>
-
-
-
-
-
-
-';
+</div>';
     }
 }
 
+// Modifier la quantité d'un produit 
 
 function modifier_quantite($quantite, $id_produit)
-{ //boucler sur le panier, 
+{
 
     for ($i = 0; $i < count($_SESSION["panier"]); $i++) {
 
@@ -412,7 +394,7 @@ function modifier_quantite($quantite, $id_produit)
     }
 }
 
-
+// Supprimer article d'un panier
 
 function supprime_article($id_supprimer)
 {
@@ -426,6 +408,7 @@ function supprime_article($id_supprimer)
     }
 }
 
+// On vide totalement le panier avec un bouton 
 
 function vider_totalement_le_panier()
 {
@@ -447,6 +430,7 @@ function prix_total_panier()
     return $prix;
 }
 
+// Aficher prix
 
 function afficher_le_total()
 {
@@ -455,6 +439,7 @@ function afficher_le_total()
     echo 'Total = ' . number_format(prix_total_panier(), 2, " , ", " ") . '€';
 }
 
+// Afficher les frais de port de la quantite article
 
 function total_frais_de_port()
 {
@@ -469,6 +454,7 @@ function total_frais_de_port()
     return $quantite * 5;
 }
 
+// Afficher les frais de port et le prix des article avec la function number_format
 
 function afficher_le_total_avec_frais_de_port()
 {
@@ -477,9 +463,10 @@ function afficher_le_total_avec_frais_de_port()
     echo 'Total = ' . number_format(total_general(), 2, " , ", " ") . '€';
 }
 
+// Afficher le cumul des deux
+
 function total_general()
 {
-
     return prix_total_panier() + total_frais_de_port();
 }
 
@@ -488,12 +475,7 @@ function total_general()
 
 function modifier_informations()
 {
-
-
     if (!verifier_champs_libre()) {
-
-
-
         $db = getConnection();
         $result = $db->prepare('UPDATE clients SET prenom = :prenom, nom = :nom, email = :email WHERE id = :id');
         $result->execute(array(
@@ -519,8 +501,6 @@ function modifier_adresse()
 
     if (!verifier_champs_libre()) {
 
-
-
         $db = getConnection();
         $result = $db->prepare('UPDATE adresses SET adresse = :adresse, code_postal = :cp, ville = :ville WHERE id_client = :id');
         $result->execute(array(
@@ -545,9 +525,7 @@ function modifier_adresse()
 
 function deconnexion()
 {
-
     $_SESSION = [];
-
     echo "<script> alert(\"Vous avez bien était déconnecté !\")</script>";
 }
 
@@ -574,8 +552,6 @@ function modifier_mot_de_passe()
             } else {
 
                 $nouveau_mot_de_passe = password_hash($nouveau_mot_de_passe, PASSWORD_DEFAULT);
-
-
 
                 $db = getConnection();
                 $result = $db->prepare('UPDATE clients SET mot_de_passe = :mdp WHERE id = :id');
@@ -670,27 +646,200 @@ function sauvegarder_la_commande()
     $db = getConnection();
     $commande = $db->prepare("INSERT INTO commandes (id_client, numero, date_commande, prix) VALUES( :id_client, :numero, :date_commande, :prix)");
     $commande->execute([
-        "id_client" => $_SESSION["client"]["id_client"],
+        "id_client" => $_SESSION["client"]["id"],
         "numero" => rand(1000000, 9999999),
-        "date_de_commande" => date("Y,m,d h:i:s"),
+        "date_commande" => date("d-m-Y h:i:s"),
         "prix" => total_general()
     ]);
 
-
-    $db = getConnection();
-    $query = $db->prepare("SELECT * FROM commandes WHERE id_client = :id");
-    return $query->execute($_SESSION["client"]["id_client"]);
+    $commande_id = $db->lastInsertId(); // recupérer dernier id
 
 
-    foreach ($_SESSION["panier"] as $articles) {
+    $query = $db->prepare("INSERT INTO commande_articles (id_commande, id_article, quantite) VALUES( :id_commande, :id_article, :quantite)");
+
+    foreach ($_SESSION["panier"] as $article) {
 
 
-
-        $db = getConnection();
-        $articles = $db->prepare("INSERT INTO commande_articles (id_article, quantite) VALUES( :id_article, :quantite)");
-        $articles->execute([
-            "id_article" => $_SESSION["id"],
-            "quantite" => $_SESSION["quantite"],
+        $query->execute([
+            "id_commande" => $commande_id,
+            "id_article" => $article["id"],
+            "quantite" =>   $article["quantite"],
         ]);
     }
+}
+
+
+function afficher_les_commandes()
+{
+
+
+    $db = getConnection();
+    $query = $db->prepare("SELECT * FROM `commandes` WHERE id_client=?");
+    $query->execute([$_SESSION["client"]["id"]]);
+    $commandes = $query->fetchAll();
+
+    echo '<h3 class="text-center">Mes commandes</h3>';
+
+    echo '
+    <div class="container">
+
+    <div class="row mt-5 mb-5 text-black mx-auto my-auto p-4">
+
+    <div class="col-3 text-center ">
+    <h5 class="">Numéro</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Date</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Montant</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Détail</h5>
+
+    </div>
+    <div classe="trait" style="border-bottom: solid 1px; margin-bottom: 3em;"</div>
+    </div>';
+
+
+    foreach ($commandes as $commande) {
+
+
+        echo '
+    <div class="container">
+
+    <div class="row text-black text-center shadow rounded-2 p-4 mb-3">
+    
+    <div class="col-3 text-center my-auto">
+    <h3 class="">' . $commande['numero'] . '</h3>
+    </div>
+    
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $commande['date_commande'] . '</h5>
+    </div>
+    
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $commande['prix'] . '€' . '</h5>
+    </div>
+
+    <div class="col-3 text-center my-auto">
+    <form action="detail_de_ma_commande.php" method="post">
+    <input type="hidden" name="detail_commande" value=' . $commande['id'] . '>
+    <input type="hidden" name="numero" value=' . $commande['numero'] . '>
+    <input type="hidden" name="date" value=' . $commande['date_commande'] . '>
+    <input type="hidden" name="prix" value=' . $commande['prix'] . '>
+    <button type="submit" class=" btn btn-primary">Détails</button>
+    </form> 
+    </div>
+
+    </div>
+    </div>';
+    }
+}
+
+
+function detail_de_ma_commande($id)
+{
+
+
+    $db = getConnection();
+    $query = $db->prepare("SELECT * FROM commande_articles INNER JOIN articles ON articles.id = commande_articles.id_article WHERE id_commande=?");
+    $query->execute([$id]);
+    $details_commande = $query->fetchAll();
+
+
+    echo '<h3 class="text-center">Détail commande : ' . $_POST["numero"] . '</h3>';
+    echo '<h5 class="text-center">Date : ' . $_POST["date"] . '</h5>';
+    echo '<h5 class="text-center">Prix total : ' . number_format($_POST["prix"], 2, " , ", " ") . '€' . '</h5>';
+
+    echo '
+    <div class="container">
+
+    <div class="row mt-5 mb-5 text-black mx-auto my-auto p-4">
+
+    <div class="col-3 text-center ">
+    <h5 class="">Article</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Prix</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Quantités</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class="">Montant</h5>
+
+    </div>
+    <div classe="trait" style="border-bottom: solid 1px; margin-bottom: 3em;"</div>
+    </div>';
+
+
+
+    foreach ($details_commande as $article) {
+
+
+        echo '
+    <div class="container">
+
+    <div class="row text-black text-center shadow rounded-2 p-4 mb-3">
+    
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $article['nom'] . '</h5>
+    </div>
+    
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $article['prix'] . '€' .  '</h5>
+    </div>
+    
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $article['quantite'] . '</h5>
+    </div>
+
+    <div class="col-3 text-center my-auto">
+    <h5 class="">' . $article['prix'] * $article['quantite'] . '€' . '</h5>
+    </div>
+
+
+    </div>
+    </div>';
+    }
+
+    echo '
+    <div class="container">
+
+    <div class="row mt-5 mb-5 text-black mx-auto my-auto p-4">
+
+    <div class="col-3 text-center ">
+    <h5 class="">Frais de port</h5>
+    </div>
+    <div class="col-3 text-center ">
+    <h5 class=""> 5.00€ </h5>
+    </div>';
+
+    $quantite = 0;
+
+    foreach ($details_commande as $article) {
+
+        $quantite += $article["quantite"];
+    }
+
+    echo '
+    
+    <div class="col-3 text-center ">
+    <h5>' . $quantite . '</h5>
+    </div>
+
+    <div class="col-3 text-center ">
+    <h5 class="">' . number_format($quantite * 5, 2, " , ", " ") . '€' . '</h5>
+    </div>
+
+    <div class="row text-center mt-5">
+
+    <form action="profil.php" method="post">
+    <input type="hidden" name="retour_profil">
+    <button type="submit" class="btn btn-primary">Retour au compte</button>
+    </form> 
+
+    </div>
+    </div>';
 }

@@ -9,7 +9,6 @@ include "./header.php";
 
 if (isset($_POST['quantite'])) {
     $quantite_article = $_POST['quantite'];
-
     modifier_quantite($_POST['quantite'], $_POST["articleId2"]);
 }
 
@@ -21,13 +20,11 @@ if (isset($_POST['supprimer_article_id'])) {
 
 
 if (isset($_POST["modif_infos"])) {
-
     modifier_informations();
 }
 
 
 if (isset($_POST["modif_adresse"])) {
-
     modifier_adresse();
 }
 
@@ -37,39 +34,34 @@ afficher_panier("validation.php");
 ?>
 
 <div class="container">
-
     <div class="row justify-content-center mb-5">
 
         <?php
-
         afficher_le_total();
         ?>
 
 
-<!-- FRAIS DE LIVRAISON DOMICILE 10€ ET POINT RELAY 5€-->
+        <!-- FRAIS DE LIVRAISON DOMICILE 10€ ET POINT RELAY 5€-->
 
         <form action="validation.php" method="POST">
 
-        <div class="mb-3 form-check ">
-            <input required type="checkbox" class="form-check-input" id="exampleCheck1" name="domicile">
-            <label class="form-check-label" for="exampleCheck1">A domicile = 10€</label>
-        </div>
+            <div class="mb-3 form-check ">
+                <input required type="checkbox" class="form-check-input" id="exampleCheck1" name="domicile">
+                <label class="form-check-label" for="exampleCheck1">A domicile = 10€</label>
+            </div>
 
-        <div class="mb-3 form-check">
-            <input required type="checkbox" class="form-check-input" id="exampleCheck1" name="point-relais">
-            <label class="form-check-label" for="exampleCheck1">En point-relais = 5€</label>
-        </div>
+            <div class="mb-3 form-check">
+                <input required type="checkbox" class="form-check-input" id="exampleCheck1" name="point-relais">
+                <label class="form-check-label" for="exampleCheck1">En point-relais = 5€</label>
+            </div>
         </form>
 
-
-
-
-
-
         <div class="row justify-content-center mb-5">
+
             <?php
             afficher_le_total_avec_frais_de_port()
             ?>
+
         </div>
     </div>
 </div>

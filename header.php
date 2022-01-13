@@ -11,7 +11,7 @@ include "./head.php";
       <h1 class="fw-bold">La Boutique</h1>
       <div class="row">
         <div class="col-12 text-center">
-        <h2>ORDI ULTRA</h2>
+          <h2>ORDI ULTRA</h2>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@ include "./head.php";
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light ">
   <div class="container-fluid">
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,11 +39,11 @@ include "./head.php";
         </li>
 
         </li>
-        <?php 
-        
-        if(!isset($_SESSION["client"]["id"])){
-        
-        echo'
+        <?php
+
+        if (!isset($_SESSION["client"]["id"])) {
+
+          echo '
         <li class="nav-item">
           <a class="nav-link" href="connexion.php">Connexion</a>
         </li>
@@ -52,8 +52,8 @@ include "./head.php";
         </li>
         
         ';
-      }else{
-        echo'
+        } else {
+          echo '
         <li class="nav-item">
           <a class="nav-link" href="profil.php">Profil</a>
         </li>
@@ -67,21 +67,9 @@ include "./head.php";
         </li>
         
         ';
-}
-      
-      
-      
-      ?>
-        
-        
-        
+        } ?>
+
       </ul>
     </div>
   </div>
 </nav>
-
-
-
-
-
-

@@ -5,11 +5,11 @@ include "./function.php";
 session_start();
 ?>
 
-<div class="container"> 
+<html>
 
+<div class="container"> 
 <div class="row">
 
-<html>
 
 <form class="w-50 mx-auto" action="index.php" method="post">
   <div class="mb-3 mt-5">
@@ -53,9 +53,8 @@ session_start();
 
 </div>
 </div>
+
 </html>
-
-
 
 <?php
 include "./footer.php";
